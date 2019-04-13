@@ -1,0 +1,107 @@
+Battlrun:
+if red
+x: 1305
+y: 740
+rgb: (136, 0, 0)
+
+if blue
+x: 1305
+y: 740
+rgb: (25,186,246)
+
+if grey
+x: 1305
+y: 740
+rgb: (136,136,136)
+
+FightScene:
+if yellow
+x: 1200
+y: 666
+rgb: (254,226,131)
+
+if red
+x: 1200
+y: 666
+rgb: (193,0,0)
+
+if grey
+x: 1201
+y: 666
+rgb:(193,193,193)
+
+
+ItemsBag:
+if yellow
+x: 1201
+y: 741
+rgb(254,206,30)
+
+if red
+x: 1201
+y: 741
+rgb(142,0,0)
+
+if grey
+x: 1201
+y: 741
+rgb(142,142,142)
+
+Battle pokemon:
+if redready
+x: 1286
+y: 656
+rgb(110,0,0)
+if grey
+x: 1286
+y: 656
+rgb(110,110,110)
+if redbeginningidle#if its red but at the start of battle scene
+x: 1286
+y: 656
+rgb(110,0,0)
+
+screen postion:
+
+x: 462
+y: 149
+rgb:(250,83,83)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

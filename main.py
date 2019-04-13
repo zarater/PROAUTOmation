@@ -100,7 +100,7 @@ def isWildPokemon():
     grayImage = ImageOps.grayscale(image)
     pixel = grayImage.getpixel(BattleOptions.BattleRun)
     print(pixel)
-    if pixel != BattleOptionsColors.RunGrey:
+    if pixel != BattleOptionsColors.RunRed:
         print("not in battle")
         return False
     return True
