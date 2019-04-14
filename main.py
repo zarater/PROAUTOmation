@@ -11,6 +11,7 @@ up = 'up'
 currentGrid = [0, 0,
                0, 0]
 
+
 def getGrid():
     image = ImageGrab.grab()
     grayImage = ImageOps.grayscale(image)
@@ -29,9 +30,20 @@ class CatchPoke:
         self.isShape = isShape
         self.isName = isName
         self.isColor = isColor
+
     isShape = 0
     isName = 0
     isColor = 0
+
+    def ItIsPokeToCatch(isPokemon):
+        image = ImageGrab.grab()
+        grayImage = ImageOps.grayscale(image)
+        pixel = grayImage.getpixel(isPokemon.isShape)
+        print(pixel)
+        if pixel != isPokemon.isColor:
+            print("not the poke to catch")
+            return False
+        return True
 
 
 class BattleOptionsColors:
@@ -44,16 +56,17 @@ class BattleOptionsColors:
     BagRed = 42
     BagGrey = 142
     BagYellow = 200
-    ChoosePokeRed = 32#battle phase started.
+    ChoosePokeRed = 32  # battle phase started.
     ChoosePokeGrey = 110
-    ChoosePokeRedReady = 76#not at start of battle
+    ChoosePokeRedReady = 76  # not at start of battle
     ProWindowIconColor = 132
 
-    BattleOptionsColorsArray = [RunRed, RunGrey, RunBlu, FightRed, FightGrey, FightYellow, BagRed, BagGrey, BagYellow,ChoosePokeRed, ChoosePokeGrey, ChoosePokeRedReady]
+    BattleOptionsColorsArray = [RunRed, RunGrey, RunBlu, FightRed, FightGrey, FightYellow, BagRed, BagGrey, BagYellow,
+                                ChoosePokeRed, ChoosePokeGrey, ChoosePokeRedReady]
 
 
 class BattleOptions:
-    isProWindowOpen = (462, 149) #this is the pokeball at top right of PRO Window
+    isProWindowOpen = (462, 149)  # this is the pokeball at top right of PRO Window
     BattleRun = (1305, 740)
     BattleFight = (1200, 666)
     BattleBag = (1201, 741)
@@ -129,7 +142,7 @@ def PROWindowLocation():
 
 def mouseread():
     print("mouse reading")
-    print(pyautogui.displayMousePosition()) #hovers over mouse to determine rgb
+    print(pyautogui.displayMousePosition())  # hovers over mouse to determine rgb
 
 
 def RunFromPoke():
@@ -139,37 +152,123 @@ def RunFromPoke():
     time.sleep(5)
 
 
+def AttemptToCatch():
+    print("attempt to catch")
+    time.sleep(6)
+    keypress('3')
+    time.sleep(2)
+    pyautogui.click(440, 136)
+    time.sleep(9)
 
-def BattlePhase():
-    RunFromPoke()
+
+def StillThere(isPokemon):
+    image = ImageGrab.grab()
+    grayImage = ImageOps.grayscale(image)
+    pixel = grayImage.getpixel(isPokemon.isShape)
+    print(pixel)
+    if pixel != isPokemon.isColor:
+        print("Pokemon Caught!")
+        return False
+    return True
 
 
-def WalkAroundTillWildPoke():
+def BattlePokeOne():
+    time.sleep(6)
+    keypress('1')
+    time.sleep(1)
+    keypress('3')
+    time.sleep(10)
+    return
+
+
+def lifeisred():
+    pokeposition = (592, 409)
+    image = ImageGrab.grab()
+    grayImage = ImageOps.grayscale(image)
+    pixel = grayImage.getpixel(pokeposition)
+    print(pixel)
+    if pixel != 77:
+        print("is still alive")
+        return False
+    return True
+
+
+def BattlePokeTwo():
+    keypress('1')
+    time.sleep(1)
+    keypress('1')
+    while (lifeisred() == False):
+        keypress('1')
+        time.sleep(1)
+        keypress('1')
+    return
+
+
+def SwitchPoke():
+    keypress('2')
+    pyautogui.click(1193, 480)
+    time.sleep(10)
+
+
+def WeakenBattle():
+    BattlePokeOne()
+    SwitchPoke()
+    BattlePokeTwo()
+    return
+
+
+def BattlePhase(isPokemon):
+    if isPokemon.ItIsPokeToCatch(isPokemon):
+        WeakenBattle()
+        while StillThere(isPokemon):
+            AttemptToCatch()
+    else:
+        RunFromPoke()
+
+
+def WalkAroundTillWildPoke(isPokemon):
     if isWildPokemon():
-        BattlePhase()
+        BattlePhase(isPokemon)
     if not isWildPokemon():
         walkleft()
     if not isWildPokemon():
         walkright()
-    return WalkAroundTillWildPoke()
+    return WalkAroundTillWildPoke(isPokemon)
 
-def GetWhatPoke(isDratini):
-    shape = 30
-    name = 30
-    color = 30
-    isDratini(shape, name, color)
+
+def GetShape():
+    return
+
+
+def GetName():
+    return
+
+
+def GetColor():
+    return
+
+
+def GetWhatPoke(PokemonToCatch):
+    shape = GetShape()
+    name = GetName()
+    color = GetColor()
+    PokemonToCatch = CatchPoke(shape, name, color)
+    return PokemonToCatch
+
 
 def main():
     timer()
+    #mouseread()
+    # if search(userinput) == True: isPokemon = GetWhatPoke(userinput)
     isDratini = CatchPoke
-    GetWhatPoke(isDratini)
-    print("color", isDratini.isColor)
-    if PROWindowLocation() == False:
-        print("ProWindow not at same location. Icon must be visible and same location at all times")
-        return 0
+    isPokemon = GetWhatPoke(isDratini)
 
-    #if not isWildPokemon():
-    #    WalkAroundTillWildPoke()
+    # if PROWindowLocation() == False:
+    #    print("ProWindow not at same location. Icon must be visible and same location at all times")
+    #    return 0
+
+    if not isWildPokemon():
+        WalkAroundTillWildPoke(isPokemon)
 
 
 main()
