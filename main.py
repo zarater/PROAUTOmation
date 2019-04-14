@@ -24,6 +24,16 @@ def getGrid():
             currentGrid[index] = pow(2, pos)
 
 
+class CatchPoke:
+    def __init__(self, isShape, isName, isColor):
+        self.isShape = isShape
+        self.isName = isName
+        self.isColor = isColor
+    isShape = 0
+    isName = 0
+    isColor = 0
+
+
 class BattleOptionsColors:
     RunRed = 40
     RunGrey = 136
@@ -72,7 +82,7 @@ def keypress(key):
 
 
 def walkleft():
-    walk = 15
+    walk = 1
     i = 0
     while i < walk:
         keypress(left)
@@ -80,7 +90,7 @@ def walkleft():
 
 
 def walkright():
-    walk = 15
+    walk = 1
     i = 0
     while i < walk:
         keypress(right)
@@ -116,19 +126,50 @@ def PROWindowLocation():
         return True
     return False
 
+
+def mouseread():
+    print("mouse reading")
+    print(pyautogui.displayMousePosition()) #hovers over mouse to determine rgb
+
+
+def RunFromPoke():
+    print("in battle phase")
+    time.sleep(6)
+    keypress('4')
+    time.sleep(5)
+
+
+
+def BattlePhase():
+    RunFromPoke()
+
+
+def WalkAroundTillWildPoke():
+    if isWildPokemon():
+        BattlePhase()
+    if not isWildPokemon():
+        walkleft()
+    if not isWildPokemon():
+        walkright()
+    return WalkAroundTillWildPoke()
+
+def GetWhatPoke(isDratini):
+    shape = 30
+    name = 30
+    color = 30
+    isDratini(shape, name, color)
+
 def main():
     timer()
+    isDratini = CatchPoke
+    GetWhatPoke(isDratini)
+    print("color", isDratini.isColor)
     if PROWindowLocation() == False:
         print("ProWindow not at same location. Icon must be visible and same location at all times")
         return 0
 
-    if not isWildPokemon():
-        walkright()
-        walkleft()
-    #checks prowindow location
-   # print("mouse reading")
-    #print(pyautogui.displayMousePosition()) #hovers over mouse to determine rgb
-    #ColorFromMouse()
+    #if not isWildPokemon():
+    #    WalkAroundTillWildPoke()
 
 
 main()
